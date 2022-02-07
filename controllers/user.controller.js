@@ -13,7 +13,9 @@ module.exports = {
     console.log(req.query);
     const options = renderQuery(req.query);
 
-    const { count, rows: users } = await User.findAndCountAll(options);
+    const { count, rows: users } = await User.scope(
+      "forClient"
+    ).findAndCountAll(options);
 
     const pagination = renderPagination(req.query.page, options.limit, count);
 
