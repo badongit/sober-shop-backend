@@ -1,12 +1,16 @@
 const { Model } = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { sequelize } = require(".");
+const redisClient = require("../config/redisClient");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     async matchPassword(enteredPassword) {
       return await bcrypt.compare(enteredPassword, this.password);
+    }
+
+    isActived() {
+      return this.status === "active";
     }
 
     getAccessToken() {
@@ -19,14 +23,18 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
 
-    getRefreshToken() {
-      return jwt.sign(
+    async getRefreshToken() {
+      const refreshToken = jwt.sign(
         { id: this.id, role: this.role },
         process.env.REFRESH_TOKEN_SECRET,
         {
           expiresIn: process.env.REFRESH_TOKEN_EXPIRE,
         }
       );
+
+      await redisClient.set(this.id.toString(), refreshToken);
+
+      return refreshToken;
     }
 
     static associate(models) {
@@ -53,6 +61,11 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Message, {
         foreignKey: "senderId",
         as: "messages",
+      });
+
+      this.hasMany(models.RechargeHistory, {
+        foreignKey: "userId",
+        as: "rechargeHistories",
       });
 
       this.hasOne(models.Conversation, {
@@ -82,10 +95,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          min: {
-            args: 6,
-            msg: "Your password is shorter than 6 characters",
-          },
           notNull: {
             msg: "Please enter your password",
           },
@@ -129,10 +138,6 @@ module.exports = (sequelize, DataTypes) => {
       displayName: {
         type: DataTypes.STRING,
         validate: {
-          max: {
-            args: 30,
-            msg: "Display name is too long",
-          },
           notEmpty: {
             msg: "Display name is empty",
           },
@@ -142,9 +147,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE,
         defaultValue: 0,
         validate: {
-          min: {
-            args: 0,
-            msg: "Your balance is not enough",
+          isGreaterThanZero(value) {
+            if (+value < 0) {
+              throw new Error("your balance is not enough");
+            }
           },
         },
       },
@@ -164,8 +170,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       scopes: {
-        withoutPassword: {
-          attributes: { exclude: ["password"] },
+        forClient: {
+          attributes: {
+            exclude: ["password", "resetPasswordToken", "resetPasswordExpire"],
+          },
         },
       },
       hooks: {

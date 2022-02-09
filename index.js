@@ -7,6 +7,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const fileUpload = require("express-fileupload");
 const routes = require("./routes");
+const redisClient = require("./config/redisClient");
 
 const app = express();
 const port = process.env.PORT || "5000";
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(helmet());
 app.use(fileUpload());
 
+redisClient.connect();
 routes(app);
 
 app.listen(port, () => {
