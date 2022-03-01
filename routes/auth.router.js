@@ -19,8 +19,8 @@ router.post("/token", sendToken);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:resetPasswordToken", resetPassword);
 router.get("/me", protect, getMe);
-router.patch("/profile", protect, updateProfile);
-router.patch("/recharge", protect, recharge);
+router.put("/profile", protect, updateProfile);
+router.put("/recharge", protect, recharge);
 router.post("/change-password", protect, changePassword);
 
 module.exports = router;

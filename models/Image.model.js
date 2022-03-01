@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
         constraints: false,
         as: "feedback",
       });
+
+      this.belongsTo(models.Category, {
+        foreignKey: "imageableId",
+        constraints: false,
+        as: "category",
+      });
     }
   }
 
@@ -51,6 +57,9 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Please enter imageable id",
           },
         },
+      },
+      publicId: {
+        type: DataTypes.STRING,
       },
     },
     {

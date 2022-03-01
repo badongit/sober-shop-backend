@@ -110,7 +110,7 @@
 				{
 					"name": "Nạp tiền",
 					"request": {
-						"method": "PATCH",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -137,7 +137,7 @@
 				{
 					"name": "Cập nhật thông tin người dùng",
 					"request": {
-						"method": "PATCH",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -195,7 +195,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"12456\"\r\n}",
+							"raw": "{\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -203,14 +203,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{api_url}}/auth/reset-password/814160",
+							"raw": "{{api_url}}/auth/reset-password/414345",
 							"host": [
 								"{{api_url}}"
 							],
 							"path": [
 								"auth",
 								"reset-password",
-								"814160"
+								"414345"
 							]
 						}
 					},
@@ -318,6 +318,136 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Thể loại",
+			"item": [
+				{
+					"name": "Tạo danh mục",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Footwears",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/ADMIN/Downloads/Footwears-897x293.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_url}}/categories/",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"categories",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy tất cả danh mục",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/categories",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy danh mục theo id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/categories/15",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"categories",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cập nhật danh mục",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Footwears",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/ADMIN/Downloads/Footwears-897x293.jpg"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_url}}/categories/17",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"categories",
+								"17"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Xóa danh mục theo id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/categories/15",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"categories",
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -325,7 +455,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjQ0MjQ0NTQ5LCJleHAiOjE2NDQzMzA5NDl9.oBCRi53akre6f_4sCeuECvBaQ8ysyVvFNEIRMdEkre0",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0NjA1NjU3OCwiZXhwIjoxNjQ2MTQyOTc4fQ.SDt_lpaSPJ6chU6EPhPkDjKecsTn8FHcYs8EhBy9jx8",
 				"type": "string"
 			}
 		]

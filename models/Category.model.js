@@ -7,6 +7,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "categoryId",
         as: "products",
       });
+
+      this.hasMany(models.Image, {
+        foreignKey: "imageableId",
+        constraints: false,
+        scope: {
+          imageable: "category",
+        },
+        as: "images",
+      });
     }
   }
 
@@ -23,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       description: DataTypes.STRING,
-      image: DataTypes.STRING,
     },
     {
       sequelize,
