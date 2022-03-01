@@ -6,4 +6,5 @@ module.exports = {
   INACTIVE: "inactive",
   UNAUTHORIZED: "unauthorized",
   FORBIDDEN: "forbidden",
+  UPLOAD_FAILED: "upload failed",
 };

@@ -50,12 +50,6 @@ module.exports = {
       );
     }
 
-    if (user.role !== "user") {
-      return next(
-        new ErrorResponse(msgEnum.FORBIDDEN, statusCodeEnum.FORBIDDEN)
-      );
-    }
-
     const isMatched = await user.matchPassword(password);
 
     if (!isMatched) {
@@ -121,7 +115,7 @@ module.exports = {
     return sendResponse(res, msgEnum.SUCCESS, statusCodeEnum.OK, { user });
   }),
 
-  //@route [PATCH] /profile
+  //@route [PUT] /profile
   updateProfile: asyncHandle(async (req, res, next) => {
     await req.user.update(req.body, {
       fields: ["email", "phone", "address", "displayName"],
@@ -134,7 +128,7 @@ module.exports = {
     });
   }),
 
-  //@route [PATCH] /recharge
+  //@route [PUT] /recharge
   recharge: asyncHandle(async (req, res, next) => {
     const transaction = await sequelize.transaction();
     const { money } = await req.body;
