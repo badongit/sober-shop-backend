@@ -7,4 +7,5 @@ module.exports = {
   UNAUTHORIZED: "unauthorized",
   FORBIDDEN: "forbidden",
   UPLOAD_FAILED: "upload failed",
+  EXISTED: "already exist",
 };

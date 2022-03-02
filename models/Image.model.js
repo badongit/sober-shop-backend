@@ -9,12 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         as: "product",
       });
 
-      this.belongsTo(models.Item, {
-        foreignKey: "imageableId",
-        constraints: false,
-        as: "item",
-      });
-
       this.belongsTo(models.Feedback, {
         foreignKey: "imageableId",
         constraints: false,
