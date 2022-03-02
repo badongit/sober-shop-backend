@@ -2,6 +2,7 @@ const APIEnum = require("../enum/api.enum");
 const authRouter = require("../routes/auth.router");
 const userRouter = require("../routes/user.router");
 const categoryRouter = require("../routes/category.router");
+const productRouter = require("../routes/product.router");
 
 const routers = [
   {
@@ -15,6 +16,10 @@ const routers = [
   {
     router: categoryRouter,
     endpoint: APIEnum.CATEGORIES,
+  },
+  {
+    router: productRouter,
+    endpoint: APIEnum.PRODUCTS,
   },
 ];
 

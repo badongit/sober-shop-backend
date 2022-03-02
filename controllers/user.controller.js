@@ -10,14 +10,16 @@ const ErrorResponse = require("../helpers/ErrorResponse");
 module.exports = {
   //@route [GET] /
   getUsers: asyncHandle(async (req, res, next) => {
-    console.log(req.query);
     const options = renderQuery(req.query);
 
     const { count, rows: users } = await User.scope(
       "forClient"
     ).findAndCountAll(options);
 
-    const pagination = renderPagination(req.query.page, options.limit, count);
+    let pagination;
+    if (!req.query.getAll) {
+      pagination = renderPagination(req.query.page, options.limit, count);
+    }
 
     return sendResponse(
       res,

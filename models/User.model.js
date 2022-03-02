@@ -149,7 +149,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isGreaterThanZero(value) {
             if (+value < 0) {
-              throw new Error("your balance is not enough");
+              throw new Error("Your balance is not enough");
             }
           },
         },

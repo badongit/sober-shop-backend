@@ -29,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
           notNull: {
             msg: "Please enter category name",
           },
+          notEmpty: {
+            msg: "Please enter category name",
+          },
         },
       },
       description: DataTypes.STRING,

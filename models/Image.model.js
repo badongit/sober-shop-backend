@@ -42,21 +42,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       imageable: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: "Please enter imageable",
-          },
-        },
       },
       imageableId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: "Please enter imageable id",
-          },
-        },
       },
       publicId: {
         type: DataTypes.STRING,

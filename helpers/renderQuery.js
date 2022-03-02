@@ -1,6 +1,10 @@
 module.exports = (query) => {
   let options = {};
-  const { limit = 10, page = 1, getAll = 0 } = query;
+  const {
+    limit = +process.env.LIMIT,
+    page = +process.env.PAGE,
+    getAll = 0,
+  } = query;
 
   if (!getAll) {
     options.limit = +limit;
