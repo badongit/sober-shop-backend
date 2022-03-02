@@ -1,8 +1,10 @@
-module.exports = (page, limit, total) => {
+function renderPagination(page, limit, total) {
   return {
-    page: page || 1,
+    page: +page || +process.env.PAGE,
     limit,
     total,
     totalPage: Math.ceil(total / limit),
   };
-};
+}
+
+module.exports = renderPagination;

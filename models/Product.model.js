@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Category, {
         foreignKey: "categoryId",
         onDelete: "cascade",
+        as: "category",
       });
     }
   }
@@ -30,16 +31,22 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: "Please enter product name",
+          notNull: {
+            msg: "Please enter product name",
+          },
+          notEmpty: {
+            msg: "Please enter product name",
+          },
         },
       },
       price: {
         type: DataTypes.DOUBLE,
         allowNull: false,
         validate: {
-          min: {
-            args: 0,
-            msg: "Price must be greater than 0",
+          isGreaterThanZero(value) {
+            if (+value < 0) {
+              throw new Error("Price must be greater than 0");
+            }
           },
           notNull: {
             msg: "Please enter price",
@@ -48,13 +55,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       description: DataTypes.STRING,
       rating: {
-        type: DataTypes.DECIMAL(5, 1),
+        type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0,
         validate: {
-          len: {
-            args: [0, 5],
-            msg: "Rating must be from 0 to 5",
+          isFromZeroToFive(value) {
+            if (+value < 0 || +value > 5) {
+              throw new Error("Rating must be from 0 to 5");
+            }
           },
         },
       },
@@ -62,9 +70,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         default: 0,
         validate: {
-          len: {
-            args: [0, 100],
-            msg: "Discount must be from 0 to 100",
+          isFromZeroToOneHundred(value) {
+            if (+value < 0 || +value > 100) {
+              throw new Error("Discount must be from 0 to 100");
+            }
           },
         },
       },
@@ -72,9 +81,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         defaultValue: 0,
         validate: {
-          min: {
-            args: 0,
-            msg: "Sold products must be greater than 0",
+          isGreaterThanZero(value) {
+            if (+value < 0) {
+              throw new Error("Sold must be greater than 0");
+            }
           },
         },
       },
