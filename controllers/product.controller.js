@@ -7,7 +7,8 @@ const renderPagination = require("../helpers/renderPagination");
 const renderQuery = require("../helpers/renderQuery");
 const sendResponse = require("../helpers/SendResponse");
 const asyncHandle = require("../middlewares/asyncHandle");
-const { Product, Category, sequelize, Image } = require("../models");
+const { Product, sequelize, Image } = require("../models");
+const { ERROR_NOT_FOUND } = require("../enum/error.enum");
 
 module.exports = {
   //@route [POST] /
@@ -116,9 +117,7 @@ module.exports = {
     });
 
     if (!product) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     return sendResponse(res, msgEnum.SUCCESS, statusCodeEnum.OK, { product });
@@ -133,9 +132,7 @@ module.exports = {
     let imagesData;
 
     if (!product) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     try {
@@ -192,9 +189,7 @@ module.exports = {
     const image = await Image.findByPk(imageId);
 
     if (!image) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     await Image.destroy({ where: { id: imageId, imageableId: productId } });
@@ -206,9 +201,7 @@ module.exports = {
     await destroy(image.publicId);
 
     if (!product) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     return sendResponse(res, msgEnum.SUCCESS, statusCodeEnum.OK, { product });
@@ -222,9 +215,7 @@ module.exports = {
     const product = await Product.findByPk(id, { include: "images" });
 
     if (!product) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     try {

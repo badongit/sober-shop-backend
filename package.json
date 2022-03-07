@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^14.2.0",
     "nodemon": "^2.0.15",
     "sequelize-cli": "^6.4.1"
@@ -19,7 +20,6 @@
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.28.1",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
     "express": "^4.17.2",
     "express-fileupload": "^1.2.1",
     "helmet": "^5.0.1",

@@ -5,6 +5,7 @@ const ErrorResponse = require("../helpers/ErrorResponse");
 const msgEnum = require("../enum/msg.enum");
 const statusCodeEnum = require("../enum/status-code.enum");
 const sendResponse = require("../helpers/SendResponse");
+const { ERROR_NOT_FOUND, ERROR_BAD_REQUEST } = require("../enum/error.enum");
 
 module.exports = {
   // @route [POST] /
@@ -37,9 +38,7 @@ module.exports = {
       console.log(error);
       await destroy(publicId);
       await transaction.rollback();
-      return next(
-        new ErrorResponse(msgEnum.BAD_REQUEST, statusCodeEnum.BAD_REQUEST)
-      );
+      return next(ERROR_BAD_REQUEST);
     }
 
     await category.reload({ include: "images" });
@@ -64,9 +63,7 @@ module.exports = {
     const category = await Category.findByPk(id, { include: "images" });
 
     if (!category) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     return sendResponse(res, msgEnum.SUCCESS, statusCodeEnum.OK, { category });
@@ -81,9 +78,7 @@ module.exports = {
     const category = await Category.findByPk(id, { include: "images" });
 
     if (!category) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     const oldImages = await category.getImages();
@@ -92,9 +87,7 @@ module.exports = {
     let publicId;
 
     if (!category) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     try {
@@ -134,9 +127,7 @@ module.exports = {
       console.log(error.message);
       await destroy(publicId);
       await transaction.rollback();
-      return next(
-        new ErrorResponse(msgEnum.BAD_REQUEST, statusCodeEnum.BAD_REQUEST)
-      );
+      return next(ERROR_BAD_REQUEST);
     }
 
     await category.reload({ include: "images" });
@@ -152,9 +143,7 @@ module.exports = {
     const category = await Category.findByPk(id, { include: "images" });
 
     if (!category) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     try {

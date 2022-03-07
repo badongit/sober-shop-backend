@@ -4,4 +4,5 @@ module.exports = {
   CATEGORIES: "categories",
   PRODUCTS: "products",
   ITEMS: "items",
+  CARTS: "carts",
 };

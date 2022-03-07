@@ -43,9 +43,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE,
         allowNull: false,
         validate: {
-          isGreaterThanZero(value) {
+          isGreaterThanEqualZero(value) {
             if (+value < 0) {
-              throw new Error("Price must be greater than 0");
+              throw new Error("Price must be greater than equal 0");
             }
           },
           notNull: {
@@ -81,9 +81,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         defaultValue: 0,
         validate: {
-          isGreaterThanZero(value) {
+          isGreaterThanEqualZero(value) {
             if (+value < 0) {
-              throw new Error("Sold must be greater than 0");
+              throw new Error("Sold must be greater than equal 0");
             }
           },
         },
