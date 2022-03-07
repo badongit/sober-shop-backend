@@ -3,4 +3,5 @@ module.exports = {
   USERS: "users",
   CATEGORIES: "categories",
   PRODUCTS: "products",
+  CARTS: "carts",
 };

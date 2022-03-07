@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Item, {
         foreignKey: "itemId",
         onDelete: "cascade",
+        as: "item",
       });
     }
   }
@@ -25,11 +26,12 @@ module.exports = (sequelize, DataTypes) => {
       quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 1,
         validate: {
-          min: {
-            args: 0,
-            msg: "Quantity must be greater than 0",
+          isGreaterThanZero(value) {
+            if (+value <= 0) {
+              throw new Error("Quantity must be greater than 0");
+            }
           },
         },
       },

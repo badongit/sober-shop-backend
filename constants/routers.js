@@ -3,6 +3,7 @@ const authRouter = require("../routes/auth.router");
 const userRouter = require("../routes/user.router");
 const categoryRouter = require("../routes/category.router");
 const productRouter = require("../routes/product.router");
+const cartRouter = require("../routes/cart.router");
 
 const routers = [
   {
@@ -20,6 +21,10 @@ const routers = [
   {
     router: productRouter,
     endpoint: APIEnum.PRODUCTS,
+  },
+  {
+    router: cartRouter,
+    endpoint: APIEnum.CARTS,
   },
 ];
 
