@@ -9,13 +9,14 @@ const jwt = require("jsonwebtoken");
 const redisClient = require("../config/redisClient");
 const getResetPasswordToken = require("../helpers/getResetPasswordToken");
 const sendMail = require("../helpers/sendMail");
+const { ERROR_NOT_FOUND, ERROR_BAD_REQUEST } = require("../enum/error.enum");
 
 module.exports = {
   //@route [POST] /register
   register: asyncHandle(async (req, res, next) => {
-    const { username, password, email } = req.body;
-
-    const user = await User.create(req.body);
+    const user = await User.create(req.body, {
+      fields: ["username", "password", "email"],
+    });
 
     const accessToken = user.getAccessToken();
     const refreshToken = await user.getRefreshToken();
@@ -31,9 +32,7 @@ module.exports = {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      return next(
-        new ErrorResponse(msgEnum.BAD_REQUEST, statusCodeEnum.BAD_REQUEST)
-      );
+      return next(ERROR_BAD_REQUEST);
     }
 
     const user = await User.findOne({
@@ -45,9 +44,7 @@ module.exports = {
     });
 
     if (!user) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     const isMatched = await user.matchPassword(password);
@@ -107,9 +104,7 @@ module.exports = {
     const user = await User.scope("forClient").findByPk(req.user.id);
 
     if (!user) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     return sendResponse(res, msgEnum.SUCCESS, statusCodeEnum.OK, { user });
@@ -134,9 +129,7 @@ module.exports = {
     const { money } = await req.body;
 
     if (!money || money < 0) {
-      return next(
-        new ErrorResponse(msgEnum.BAD_REQUEST, statusCodeEnum.BAD_REQUEST)
-      );
+      return next(ERROR_BAD_REQUEST);
     }
 
     try {
@@ -164,17 +157,13 @@ module.exports = {
     const { email } = req.body;
 
     if (!email) {
-      return next(
-        new ErrorResponse(msgEnum.BAD_REQUEST, statusCodeEnum.BAD_REQUEST)
-      );
+      return next(ERROR_BAD_REQUEST);
     }
 
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     const { resetPasswordToken, resetPasswordExpire } = getResetPasswordToken();
@@ -206,9 +195,7 @@ module.exports = {
     const { password } = req.body;
 
     if (!resetPasswordToken || !password) {
-      return next(
-        new ErrorResponse(msgEnum.BAD_REQUEST, statusCodeEnum.BAD_REQUEST)
-      );
+      return next(ERROR_BAD_REQUEST);
     }
 
     const user = await User.findOne({
@@ -221,9 +208,7 @@ module.exports = {
     });
 
     if (!user) {
-      return next(
-        new ErrorResponse(msgEnum.BAD_REQUEST, statusCodeEnum.BAD_REQUEST)
-      );
+      return next(ERROR_BAD_REQUEST);
     }
 
     await user.update({
@@ -240,9 +225,7 @@ module.exports = {
     const { oldPassword, newPassword } = req.body;
 
     if (!oldPassword || !newPassword) {
-      return next(
-        new ErrorResponse(msgEnum.BAD_REQUEST, statusCodeEnum.BAD_REQUEST)
-      );
+      return next(ERROR_BAD_REQUEST);
     }
 
     const isMatched = await req.user.matchPassword(oldPassword);

@@ -147,7 +147,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE,
         defaultValue: 0,
         validate: {
-          isGreaterThanZero(value) {
+          isGreaterThanEqualZero(value) {
             if (+value < 0) {
               throw new Error("Your balance is not enough");
             }

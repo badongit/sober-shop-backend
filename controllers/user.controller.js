@@ -6,6 +6,7 @@ const sendResponse = require("../helpers/SendResponse");
 const msgEnum = require("../enum/msg.enum");
 const statusCodeEnum = require("../enum/status-code.enum");
 const ErrorResponse = require("../helpers/ErrorResponse");
+const { ERROR_NOT_FOUND, ERROR_BAD_REQUEST } = require("../enum/error.enum");
 
 module.exports = {
   //@route [GET] /
@@ -36,17 +37,13 @@ module.exports = {
     const { userId } = req.params;
 
     if (!status || !userId) {
-      return next(
-        new ErrorResponse(msgEnum.BAD_REQUEST, statusCodeEnum.BAD_REQUEST)
-      );
+      return next(ERROR_BAD_REQUEST);
     }
 
     const user = await User.findByPk(userId);
 
     if (!user) {
-      return next(
-        new ErrorResponse(msgEnum.NOT_FOUND, statusCodeEnum.NOT_FOUND)
-      );
+      return next(ERROR_NOT_FOUND);
     }
 
     await user.update({ status });
@@ -59,9 +56,7 @@ module.exports = {
     const { userId } = req.params;
 
     if (!userId) {
-      return next(
-        new ErrorResponse(msgEnum.BAD_REQUEST, statusCodeEnum.BAD_REQUEST)
-      );
+      return next(ERROR_BAD_REQUEST);
     }
 
     await User.destroy({ where: { id: userId } });
